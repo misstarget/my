@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.test.mapper.UserMapper">
+   
+   <resultMap type="com.example.demo.test.entity.SysUser" id="sysUser">
+   	<result column="id" jdbcType="INTEGER" property="id"/>
+   	<result column="user_name" jdbcType="VARCHAR" property="userName"/>
+   	<result column="age" jdbcType="INTEGER" property="age"/>
+   	<result column="cellphone" jdbcType="VARCHAR" property="cellphone"/>
+   	<result column="password" jdbcType="VARCHAR" property="password"/>
+   </resultMap>
+    
+    <!--添加区域信息 -->
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="id" parameterType="com.example.demo.test.entity.SysUser">
+    		insert into t_user_info
+    		(user_name,age,cellphone,password)
+    		values
+    		(#{userName},#{age},#{cellphone},#{password})
+    </insert>
+    
+    
+   <select id="findUser" parameterType="com.example.demo.test.entity.SysUser" resultMap="sysUser">
+   		select id,user_name,age,cellphone,password 
+   		from 
+   		t_user_info  tu
+   		<where>
+   		<if test="id != null">and id = #{id}</if>
+   		<if test="userName != null">and user_name = #{userName}</if>
+   		<if test="age != null">and age = #{age}</if>
+   		<if test="cellphone != null">and cellphone = #{cellphone}</if>
+   		<if test="password != null">and password = #{password}</if>
+   		</where> 
+   </select>
+</mapper>
